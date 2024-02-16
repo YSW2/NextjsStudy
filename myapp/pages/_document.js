@@ -8,7 +8,6 @@ export default function Document() {
       <body>
         <div className="navbar">
           <Link href="/">홈</Link>
-          <Link href="/list">List</Link>
         </div>
         <Main />
         <NextScript />
