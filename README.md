@@ -1,6 +1,6 @@
 # Nextjs Study
 
-Studying Next.js by implement simple CRUD WebApp
+Studying Next.js by implementing simple CRUD WebApp
 
 ---
 
