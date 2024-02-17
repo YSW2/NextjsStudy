@@ -1,8 +1,12 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { serverUrl } from "./utils/server";
 
 export default function login() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
+
+  const router = useRouter();
 
   const changeIdValue = (e) => {
     setUserId(e.target.value);
@@ -14,7 +18,7 @@ export default function login() {
 
   const onLogin = async () => {
     try {
-      await fetch("http://localhost:8000/api/login", {
+      const response = await fetch(`${serverUrl}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,8 +28,16 @@ export default function login() {
           userPw: userPw,
         }),
       });
+      const data = await response.json();
+
+      console.log(data.login);
+      if (data.login) {
+        router.push("/");
+      } else {
+        console.log("Login failed");
+      }
     } catch (error) {
-      console.log("로그인 에러");
+      console.log(error);
     }
   };
 

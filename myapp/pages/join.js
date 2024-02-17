@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { isEmailValid } from "./utils/validation";
+import { serverUrl } from "./utils/server";
 
 export default function join() {
   const router = useRouter();
@@ -10,8 +11,6 @@ export default function join() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(null);
-
-  const serverUrl = "http://localhost:8000/";
 
   const changeIdValue = (e) => {
     setUserId(e.target.value);

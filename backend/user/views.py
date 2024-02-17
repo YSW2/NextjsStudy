@@ -13,9 +13,14 @@ class getLoginView(APIView):
         if loginData.is_valid():
             userId = loginData.data.get("userId")
             userPw = loginData.data.get("userPw")
-            print(userId, userPw)
+            user = User.objects.filter(userId=userId, userPw=encrypt_data(userPw))
 
-        return Response({}, status=status.HTTP_200_OK)
+            if user.exists():
+                request.session["user"] = user[0].id
+                return Response({"login": True}, status=status.HTTP_200_OK)
+
+        print(loginData.errors)
+        return Response({"login": False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class getJoinView(APIView):
