@@ -36,14 +36,13 @@ export default function join() {
           userId: userId,
         }),
       });
-
       return response.json();
     } catch (error) {
-      console.log("중복확인 에러");
+      console.log(error);
     }
   };
 
-  const handleIdCheckButton = () => {
+  const handleIdCheckButton = async () => {
     checkIdDuplication(userId).then((data) => {
       if (data.success == true) {
         setIsDuplicate(false);
@@ -63,7 +62,7 @@ export default function join() {
           },
           body: JSON.stringify({
             userId: userId,
-            userPw: userPw,
+            password: userPw,
             userName: userName,
             userEmail: userEmail,
           }),

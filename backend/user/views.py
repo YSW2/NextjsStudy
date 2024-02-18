@@ -1,43 +1,37 @@
 from django.shortcuts import render
+from django.contrib.auth import login
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import *
-from .utils import encrypt_data
 import json
 
 
 class getLoginView(APIView):
-    def post(self, request, format=None):
-        loginData = loginSerializer(data=request.data)
-        if loginData.is_valid():
-            userId = loginData.data.get("userId")
-            userPw = loginData.data.get("userPw")
-            user = User.objects.filter(userId=userId, userPw=encrypt_data(userPw))
-
-            if user.exists():
-                request.session["user"] = user[0].id
-                return Response({"login": True}, status=status.HTTP_200_OK)
-
-        print(loginData.errors)
-        return Response({"login": False}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args, **kwargs):
+        serializer = LoginSerializer(data=request.data, context={"request": request})
+        if serializer.is_valid():
+            user = serializer.validated_data["user"]
+            login(request, user)  # 사용자 세션 생성 및 로그인
+            return Response(
+                {
+                    "login": True,
+                    "userId": user.userId,  # 혹은 user.userId, 모델에 따라 다를 수 있음
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {"login": False, "error": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class getJoinView(APIView):
     def post(self, request, format=None):
-        joinData = joinSerializer(data=request.data)
+        joinData = UserSerializer(data=request.data)
         if joinData.is_valid():
-            userId = joinData.data.get("userId")
-            userPw = joinData.data.get("userPw")
-            userName = joinData.data.get("userName")
-            userEmail = joinData.data.get("userEmail")
-
-            User.objects.create(
-                userId=userId,
-                userPw=encrypt_data(userPw),
-                userName=userName,
-                userEmail=userEmail,
-            )
+            user = joinData.save()
 
             return Response({"message": "success"}, status=status.HTTP_200_OK)
 

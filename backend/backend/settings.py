@@ -31,6 +31,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
+AUTH_USER_MODEL = "user.User"
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -42,6 +44,12 @@ INSTALLED_APPS = [
     "corsheaders",
     "user",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

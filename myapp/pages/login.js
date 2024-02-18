@@ -18,19 +18,18 @@ export default function login() {
 
   const onLogin = async () => {
     try {
-      const response = await fetch(`${serverUrl}/user/login`, {
+      const response = await fetch(`${serverUrl}user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: userId,
-          userPw: userPw,
+          password: userPw,
         }),
       });
       const data = await response.json();
 
-      console.log(data.login);
       if (data.login) {
         router.push("/");
       } else {
