@@ -18,7 +18,7 @@ export default function login() {
 
   const onLogin = async () => {
     try {
-      const response = await fetch(`${serverUrl}user/login`, {
+      const response = await fetch(`${serverUrl}api/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,15 +28,18 @@ export default function login() {
           password: userPw,
         }),
       });
-      const data = await response.json();
 
-      if (data.login) {
-        router.push("/");
+      const data = await response.json(); // 응답 데이터를 JSON 형태로 파싱
+
+      if (response.ok) {
+        localStorage.setItem("access_token", data.access);
+        localStorage.setItem("refresh_token", data.refresh);
+        router.push("/"); // 홈 페이지로 리디렉션
       } else {
-        console.log("Login failed");
+        console.log("Login failed"); // 로그인 실패 처리
       }
     } catch (error) {
-      console.log(error);
+      console.log(error); // 네트워크 오류 등의 예외 처리
     }
   };
 
