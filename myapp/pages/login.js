@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { serverUrl } from "./utils/server";
+import { addMinutesToCurrentTime } from "./utils/utils";
 
 export default function login() {
   const [userId, setUserId] = useState("");
@@ -34,6 +35,8 @@ export default function login() {
       if (response.ok) {
         localStorage.setItem("access_token", data.access);
         localStorage.setItem("refresh_token", data.refresh);
+        localStorage.setItem("access_expires", addMinutesToCurrentTime(5));
+        localStorage.setItem("refresh_expires", addMinutesToCurrentTime(60));
         router.push("/"); // 홈 페이지로 리디렉션
       } else {
         console.log("Login failed"); // 로그인 실패 처리

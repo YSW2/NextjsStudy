@@ -53,4 +53,9 @@ class getUserInfo(APIView):
 
     def get(self, request):
         user = request.user
-        return Response({"userName": user.userName}, status=status.HTTP_200_OK)
+        return Response(
+            {
+                "userName": user.userName,
+            },
+            status=status.HTTP_200_OK,
+        )
