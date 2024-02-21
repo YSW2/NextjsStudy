@@ -48,7 +48,7 @@ export default function Home() {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("access_expires");
     localStorage.removeItem("refresh_expires");
-    setUser({});
+    setUser("");
     setIsLogin(false);
   };
 
