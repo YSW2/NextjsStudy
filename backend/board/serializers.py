@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Post
 from django.contrib.auth import get_user_model
 
-User = get_user_model
+User = get_user_model()
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -19,6 +19,8 @@ class PostSerializer(serializers.ModelSerializer):
         if not (len(title) > 0 and len(content) > 0):
             msg = "제목 및 글 내용 오류"
             raise serializers.ValidationError(msg, code="content")
+
+        return attrs
 
     def create(self, validated_data):
         post = Post.objects.create(**validated_data)
