@@ -1,9 +1,9 @@
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .serializers import PostSerializer
+from .serializers import *
 from .models import Post
 
 
@@ -15,8 +15,14 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 class getPostView(ListAPIView):
     queryset = Post.objects.all().order_by("-created_at")
-    serializer_class = PostSerializer
+    serializer_class = PostListSerializer
     pagination_class = StandardResultsSetPagination
+
+
+class getPostDetailView(RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostDetailSerializer
+    lookup_field = "id"
 
 
 class writePostView(APIView):

@@ -5,6 +5,28 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+class PostDetailSerializer(serializers.ModelSerializer):
+    author_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ["id", "title", "content", "author_name", "created_at"]
+
+    def get_author_name(self, obj):
+        return obj.author.userName
+
+
+class PostListSerializer(serializers.ModelSerializer):
+    author_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ["id", "title", "author_name", "created_at"]
+
+    def get_author_name(self, obj):
+        return obj.author.userName
+
+
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 

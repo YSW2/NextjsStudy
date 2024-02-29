@@ -22,6 +22,7 @@ export default function Board() {
         totalPage.push(i);
       }
 
+      console.log(data);
       setPageNum(totalPage);
       setPosts(data.results);
       setNextUrl(data.next);
@@ -60,8 +61,8 @@ export default function Board() {
         {posts?.map((post) => {
           return (
             <li key={post.id}>
-              <span>{post.author}</span>
-              <span>{post.title}</span>
+              <span>{post.author_name}</span>
+              <Link href={`board/posts/${post.id}`}>{post.title}</Link>
               <span>{new Date(post.created_at).toLocaleDateString()}</span>
             </li>
           );
