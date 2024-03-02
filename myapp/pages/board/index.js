@@ -51,7 +51,7 @@ export default function Board() {
 
   useEffect(() => {
     getPostList();
-  }, [page]);
+  }, [page, pageSize]);
 
   return (
     <div>

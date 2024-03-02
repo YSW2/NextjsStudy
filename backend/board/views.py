@@ -1,6 +1,7 @@
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import *
@@ -26,7 +27,11 @@ class getPostDetailView(RetrieveAPIView):
 
 
 class writePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, format=None):
+        user = request.user
+        request.data["author"] = user.id
         posted_data = PostSerializer(data=request.data)
 
         if posted_data.is_valid():

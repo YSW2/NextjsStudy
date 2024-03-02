@@ -10,6 +10,8 @@ export default function write() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setcontent] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+  const [userToken, setUserToken] = useState("");
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -36,11 +38,11 @@ export default function write() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`, // 로그인 시 저장된 토큰 사용
           },
           body: JSON.stringify({
             title: title,
             content: content,
-            author: 3,
           }),
         });
         if (response.ok) {
@@ -52,6 +54,15 @@ export default function write() {
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      setIsLogin(true);
+      setUserToken(token);
+    } else {
+      router.push("/login");
+    }
+  });
   return (
     <div>
       <h1>글쓰기</h1>
