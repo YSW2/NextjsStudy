@@ -41,7 +41,7 @@ export default function Home() {
     return (
       <div>
         <h1>Hi, {user}!</h1>
-        <p>{localStorage.getItem("access_expires")}</p>
+        <p>{Date(localStorage.getItem("access_expires"))}</p>
         <button onClick={logout}>로그아웃</button>
       </div>
     );

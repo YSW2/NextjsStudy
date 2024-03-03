@@ -11,3 +11,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class PostView(models.Model):
+    post = models.ForeignKey(
+        "board.Post", on_delete=models.CASCADE, related_name="views"
+    )
+    user = models.ForeignKey("user.User", on_delete=models.CASCADE)
